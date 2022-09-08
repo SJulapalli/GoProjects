@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"fmt"
-	"runtime"
+
+	firebase "firebase.google.com/go"
 
 	"google.golang.org/api/option"
 )
@@ -34,66 +36,74 @@ func (p Prius) park() bool {
 	return true
 }
 
+func firestore() (*firebase.App, error) {
+	opt := option.WithCredentialsFile("./dreamx-website-firebase-adminsdk-cl6fd-4216d5076f.json")
+	app, err := firebase.NewApp(context.Background(), nil, opt)
+	if err != nil {
+		return nil, fmt.Errorf("error initializing app: %v", err)
+	}
+	return app, nil
+}
+
 func main() {
-	sa := option.WithCredentialsFile("./ServiceAccountKey.json")
-	print(sa)
-	grades := []int{1, 2, 3, 4, 5}
-	b := make([]int, 3, 100)
-	valMap := map[string]int{
-		"Suhas":  19,
-		"Subas":  18,
-		"Sinhas": 17,
-	}
 
-	pop, ok := valMap["Suhas"]
+	// 	grades := []int{1, 2, 3, 4, 5}
+	// 	b := make([]int, 3, 100)
+	// 	valMap := map[string]int{
+	// 		"Suhas":  19,
+	// 		"Subas":  18,
+	// 		"Sinhas": 17,
+	// 	}
 
-	honda := Car{
-		Brand:      "honda",
-		Color:      "blue",
-		Seats:      5,
-		Passengers: []string{"John, Alex, Charles"},
-	}
-	defer fmt.Println("Defered", valMap, pop, ok, len(valMap))
-	fmt.Println(cap(grades) + len(b))
-	fmt.Println(honda)
-	fmt.Println(struct {
-		Car
-		name string
-	}{Car: Car{Brand: "Toyota", Color: "Green", Seats: 2, Passengers: []string{"Ripley"}}, name: "Ripley"})
+	// 	pop, ok := valMap["Suhas"]
 
-	if pop, ok := valMap["Suhas"]; ok {
-		fmt.Println(pop)
-	}
+	// 	honda := Car{
+	// 		Brand:      "honda",
+	// 		Color:      "blue",
+	// 		Seats:      5,
+	// 		Passengers: []string{"John, Alex, Charles"},
+	// 	}
+	// 	defer fmt.Println("Defered", valMap, pop, ok, len(valMap))
+	// 	fmt.Println(cap(grades) + len(b))
+	// 	fmt.Println(honda)
+	// 	fmt.Println(struct {
+	// 		Car
+	// 		name string
+	// 	}{Car: Car{Brand: "Toyota", Color: "Green", Seats: 2, Passengers: []string{"Ripley"}}, name: "Ripley"})
 
-	switch pop := valMap["Suhas"]; pop {
-	case 19:
-		fmt.Println("Suhas")
-	default:
-		fmt.Println("Unknown")
-	}
+	// 	if pop, ok := valMap["Suhas"]; ok {
+	// 		fmt.Println(pop)
+	// 	}
 
-	num := Car{
-		Brand:      "honda",
-		Color:      "Green",
-		Seats:      5,
-		Passengers: []string{"Andrew", "Josh"},
-	}
+	// 	switch pop := valMap["Suhas"]; pop {
+	// 	case 19:
+	// 		fmt.Println("Suhas")
+	// 	default:
+	// 		fmt.Println("Unknown")
+	// 	}
 
-	num2 := &num
-	fmt.Println(num, num2.Brand)
+	// 	num := Car{
+	// 		Brand:      "honda",
+	// 		Color:      "Green",
+	// 		Seats:      5,
+	// 		Passengers: []string{"Andrew", "Josh"},
+	// 	}
 
-Loop:
-	for k, v := range valMap {
-		fmt.Println(k, v)
-		if k == "Sinhas" {
-			break Loop
-		}
-	}
+	// 	num2 := &num
+	// 	fmt.Println(num, num2.Brand)
 
-	honda.print()
+	// Loop:
+	// 	for k, v := range valMap {
+	// 		fmt.Println(k, v)
+	// 		if k == "Sinhas" {
+	// 			break Loop
+	// 		}
+	// 	}
 
-	var x Honda = Prius{}
+	// 	honda.print()
 
-	fmt.Println(x.drive())
-	fmt.Println(runtime.GOMAXPROCS(-1))
+	// 	var x Honda = Prius{}
+
+	// fmt.Println(x.drive())
+	// fmt.Println(runtime.GOMAXPROCS(-1))
 }
