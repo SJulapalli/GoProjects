@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"runtime"
+
+	"google.golang.org/api/option"
 )
 
 type Car struct {
@@ -15,7 +18,25 @@ func (c Car) print() {
 	fmt.Println(c)
 }
 
+type Honda interface {
+	drive() string
+	park() bool
+}
+
+type Prius struct {
+}
+
+func (p Prius) drive() string {
+	return "Vroom"
+}
+
+func (p Prius) park() bool {
+	return true
+}
+
 func main() {
+	sa := option.WithCredentialsFile("./ServiceAccountKey.json")
+	print(sa)
 	grades := []int{1, 2, 3, 4, 5}
 	b := make([]int, 3, 100)
 	valMap := map[string]int{
@@ -70,4 +91,9 @@ Loop:
 	}
 
 	honda.print()
+
+	var x Honda = Prius{}
+
+	fmt.Println(x.drive())
+	fmt.Println(runtime.GOMAXPROCS(-1))
 }
